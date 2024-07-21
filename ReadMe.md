@@ -1,0 +1,1 @@
+This a Online School Project in which teachers can teach students online and they can manage student. This Project is under development for now this a backend which is in currently in developing phase so stay tuned...!
