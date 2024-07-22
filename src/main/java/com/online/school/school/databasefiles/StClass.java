@@ -1,19 +1,19 @@
 package com.online.school.school.databasefiles;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 public class StClass {
 
     private int classId;
     private String className;
     private int seats;
-    private Set<Student> students;
+    private List<Student> students;
     private Teacher teacher;
 
     // Default constructor
     public StClass() {
-        this.students = new HashSet<>();
+        this.students = new ArrayList<>();
     }
 
     // Parameterized constructor
@@ -21,7 +21,7 @@ public class StClass {
         this.classId = classId;
         this.className = className;
         this.seats = seats;
-        this.students = new HashSet<>();
+        this.students = new ArrayList<>();
         this.teacher = teacher;
     }
 
@@ -50,11 +50,11 @@ public class StClass {
         this.seats = seats;
     }
 
-    public Set<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 
