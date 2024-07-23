@@ -1,18 +1,23 @@
 package com.online.school.school.databasefiles;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 public class Student {
     private int studentId;
     private String studentName;
     private int rollNumber;
-    private List<Subject> subjects;
+
+    @JsonIgnore
+    private List<Subject> subjects = new ArrayList<>();
+
     private StClass assignedStClass;
 
     // Default constructor
     public Student() {
-        this.subjects = new ArrayList<>();
     }
 
     // Parameterized constructor

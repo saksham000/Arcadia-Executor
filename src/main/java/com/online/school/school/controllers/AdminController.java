@@ -2,7 +2,7 @@ package com.online.school.school.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +45,15 @@ public class AdminController {
     public Admin findAdminById(@PathVariable int adminId) {
         try {
             return adminDaoService.findAdminById(adminId);
+        } catch (AdminNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
+    @DeleteMapping(path = "admin/{adminId}")
+    public void deleteAdminById(@PathVariable int adminId) {
+        try {
+            adminDaoService.deleteAdminById(adminId);
         } catch (AdminNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
