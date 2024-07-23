@@ -7,9 +7,8 @@ public class StClass {
 
     private int classId;
     private String className;
-    private int seats;
-    private List<Student> students;
     private Teacher teacher;
+    private List<Student> students;
 
     // Default constructor
     public StClass() {
@@ -17,10 +16,9 @@ public class StClass {
     }
 
     // Parameterized constructor
-    public StClass(int classId, String className, int seats, Teacher teacher) {
+    public StClass(int classId, String className, Teacher teacher) {
         this.classId = classId;
         this.className = className;
-        this.seats = seats;
         this.students = new ArrayList<>();
         this.teacher = teacher;
     }
@@ -40,14 +38,6 @@ public class StClass {
 
     public void setClassName(String className) {
         this.className = className;
-    }
-
-    public int getSeats() {
-        return seats;
-    }
-
-    public void setSeats(int seats) {
-        this.seats = seats;
     }
 
     public List<Student> getStudents() {

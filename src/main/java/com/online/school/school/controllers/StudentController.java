@@ -44,7 +44,11 @@ public class StudentController {
         } catch (StudentNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
 
+    @GetMapping(path = "students/assigne/class/{classId}/student/{stId}")
+    public void assigneClassToStudents(@PathVariable int stId,@PathVariable int classId){
+        studentDaoService.assigneClassToStudent(stId,classId);
     }
 
 }

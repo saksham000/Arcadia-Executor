@@ -4,20 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.online.school.school.databasefiles.StClass;
 import com.online.school.school.databasefiles.Student;
 import com.online.school.school.exceptions.StudentNotFoundException;
 
 @Service
 public class StudentDaoService {
+    @Autowired
+    private StClassDaoService stClassDaoService;
 
     private static List<Student> students = new ArrayList<>();
     private static int studentId = 1;
 
-    static {
+    
+
+     static{
+        
         students.add(new Student(studentId++, "saksham", studentId++, null));
         students.add(new Student(studentId++, "saxam", studentId++, null));
+    }
+
+    public void assigneClassToStudent(int stId,int classId){
+        StClass assigendClass = stClassDaoService.findClassById(classId);
+        findStudentById(stId).setAssignedStClass(assigendClass);
+        assigendClass.addStudent(findStudentById(stId));
+        findStudentById(stId).setAssignedClassId(assigendClass.getClassId());
     }
 
     public List<Student> listAllStudents() {

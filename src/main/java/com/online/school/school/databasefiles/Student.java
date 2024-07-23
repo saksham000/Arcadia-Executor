@@ -2,11 +2,15 @@ package com.online.school.school.databasefiles;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 
 public class Student {
+
+
     private int studentId;
     private String studentName;
     private int rollNumber;
@@ -14,7 +18,10 @@ public class Student {
     @JsonIgnore
     private List<Subject> subjects = new ArrayList<>();
 
+    @JsonIgnore
     private StClass assignedStClass;
+
+    private int assigendClassId = 0;
 
     // Default constructor
     public Student() {
@@ -32,6 +39,14 @@ public class Student {
     // Getters and Setters
     public int getStudentId() {
         return studentId;
+    }
+
+    public int getAssignedClassId(){
+        return assigendClassId;
+    }
+
+    public void setAssignedClassId(int assigendClassId){
+        this.assigendClassId = assigendClassId;
     }
 
     public void setStudentId(int studentId) {
