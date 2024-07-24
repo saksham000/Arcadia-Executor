@@ -4,17 +4,14 @@ public class Subject {
     private int subjectId;
     private String subjectName;
 
-    // Default constructor
     public Subject() {
     }
 
-    // Parameterized constructor
     public Subject(int subjectId, String subjectName) {
         this.subjectId = subjectId;
         this.subjectName = subjectName;
     }
 
-    // Getters and Setters
     public int getSubjectId() {
         return subjectId;
     }
@@ -31,7 +28,6 @@ public class Subject {
         this.subjectName = subjectName;
     }
 
-    // toString method
     @Override
     public String toString() {
         return "Subject{" +

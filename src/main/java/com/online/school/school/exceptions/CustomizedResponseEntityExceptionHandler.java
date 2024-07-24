@@ -26,6 +26,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
 		MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {

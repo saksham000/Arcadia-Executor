@@ -5,18 +5,15 @@ public class Admin {
     private String adminName;
     private String adminPassword;
 
-    // Default constructor
     public Admin() {
     }
 
-    // Parameterized constructor
     public Admin(int adminId, String adminName, String adminPassword) {
         this.adminId = adminId;
         this.adminName = adminName;
         this.adminPassword = adminPassword;
     }
 
-    // Getters and Setters
     public int getAdminId() {
         return adminId;
     }
@@ -41,7 +38,6 @@ public class Admin {
         this.adminPassword = adminPassword;
     }
 
-    // toString method
     @Override
     public String toString() {
         return "Admin{" +

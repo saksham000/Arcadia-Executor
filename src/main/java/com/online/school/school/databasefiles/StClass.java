@@ -10,12 +10,10 @@ public class StClass {
     private Teacher teacher;
     private List<Student> students;
 
-    // Default constructor
     public StClass() {
         this.students = new ArrayList<>();
     }
 
-    // Parameterized constructor
     public StClass(int classId, String className, Teacher teacher) {
         this.classId = classId;
         this.className = className;
@@ -23,7 +21,6 @@ public class StClass {
         this.teacher = teacher;
     }
 
-    // Getters and Setters
     public int getClassId() {
         return classId;
     }
@@ -56,7 +53,6 @@ public class StClass {
         this.teacher = teacher;
     }
 
-    // Utility method to add a student to the class
     public void addStudent(Student student) {
         this.students.add(student);
     }

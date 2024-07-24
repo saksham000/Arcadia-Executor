@@ -2,14 +2,11 @@ package com.online.school.school.databasefiles;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 
 public class Student {
-
 
     private int studentId;
     private String studentName;
@@ -23,11 +20,9 @@ public class Student {
 
     private int assigendClassId = 0;
 
-    // Default constructor
     public Student() {
     }
 
-    // Parameterized constructor
     public Student(int studentId, String studentName, int rollNumber, StClass assignedStClass) {
         this.studentId = studentId;
         this.studentName = studentName;
@@ -36,16 +31,15 @@ public class Student {
         this.assignedStClass = assignedStClass;
     }
 
-    // Getters and Setters
     public int getStudentId() {
         return studentId;
     }
 
-    public int getAssignedClassId(){
+    public int getAssignedClassId() {
         return assigendClassId;
     }
 
-    public void setAssignedClassId(int assigendClassId){
+    public void setAssignedClassId(int assigendClassId) {
         this.assigendClassId = assigendClassId;
     }
 
@@ -85,12 +79,10 @@ public class Student {
         this.assignedStClass = assignedStClass;
     }
 
-    // Utility method to add a subject to the student
     public void addSubject(Subject subject) {
         this.subjects.add(subject);
     }
 
-    // toString method
     @Override
     public String toString() {
         return "Student{" +

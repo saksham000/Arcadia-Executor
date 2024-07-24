@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.online.school.school.databasefiles.StClass;
 import com.online.school.school.databasefiles.Student;
+import com.online.school.school.exceptions.StudentAlredyPresentException;
 import com.online.school.school.exceptions.StudentNotFoundException;
 
 @Service
@@ -19,19 +20,26 @@ public class StudentDaoService {
     private static List<Student> students = new ArrayList<>();
     private static int studentId = 1;
 
-    
+    static {
 
-     static{
-        
         students.add(new Student(studentId++, "saksham", studentId++, null));
         students.add(new Student(studentId++, "saxam", studentId++, null));
     }
 
-    public void assigneClassToStudent(int stId,int classId){
+    public void assigneClassToStudent(int stId, int classId) {
         StClass assigendClass = stClassDaoService.findClassById(classId);
-        findStudentById(stId).setAssignedStClass(assigendClass);
-        assigendClass.addStudent(findStudentById(stId));
-        findStudentById(stId).setAssignedClassId(assigendClass.getClassId());
+        Student student = findStudentById(stId);
+
+        Optional<Student> studentOptional = assigendClass.getStudents().stream().filter(c -> c.getStudentId() == stId)
+                .findFirst();
+
+        if (studentOptional.isPresent()) {
+            throw new StudentAlredyPresentException("Student with Id: " + stId + " is Alredy Present in class");
+        } else {
+            student.setAssignedStClass(assigendClass);
+            assigendClass.addStudent(student);
+            student.setAssignedClassId(assigendClass.getClassId());
+        }
     }
 
     public List<Student> listAllStudents() {

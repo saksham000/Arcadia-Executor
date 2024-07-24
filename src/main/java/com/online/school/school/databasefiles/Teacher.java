@@ -1,32 +1,43 @@
 package com.online.school.school.databasefiles;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 public class Teacher {
     private int teacherId;
     private String teacherName;
+
+    private int assignedClassId = 0;
+
+    @JsonIgnore
     private List<StClass> classes;
 
-    // Default constructor
     public Teacher() {
-        this.classes = new ArrayList<>();
     }
 
-    // Parameterized constructor
     public Teacher(int teacherId, String teacherName) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.classes = new ArrayList<>();
     }
 
-    // Getters and Setters
     public int getTeacherId() {
         return teacherId;
     }
 
+    public int getAssignedClassId() {
+        return assignedClassId;
+    }
+
     public void setTeacherId(int teacherId) {
         this.teacherId = teacherId;
+    }
+
+    public void setAssignedClassId(int assigendClassId) {
+        this.assignedClassId = assigendClassId;
     }
 
     public String getTeacherName() {
@@ -45,12 +56,10 @@ public class Teacher {
         this.classes = classes;
     }
 
-    // Utility method to add a class to the teacher's set of classes
     public void addClass(StClass stClass) {
         this.classes.add(stClass);
     }
 
-    // toString method
     @Override
     public String toString() {
         return "Teacher{" +
