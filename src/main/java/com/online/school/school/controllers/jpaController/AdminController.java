@@ -1,4 +1,4 @@
-package com.online.school.school.controllers;
+package com.online.school.school.controllers.jpaController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,43 +7,50 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.online.school.school.databasefiles.Admin;
+import com.online.school.school.databasefiles.jpaRepositories.AdminRepo;
 import com.online.school.school.exceptions.AdminNotFoundException;
-import com.online.school.school.service.AdminDaoService;
+import com.online.school.school.service.jpaDaoService.AdminJpaDaoService;
 
 import java.util.List;
 
-// @RestController
+@RestController
 public class AdminController {
 
     @Autowired
-    private AdminDaoService adminDaoService;
+    private AdminJpaDaoService adminJpaDaoService;
+
+    @Autowired
+    private AdminRepo adminRepoService;
 
     @GetMapping(path = "admin")
     public List<Admin> fetchAllAdmins() {
-        return adminDaoService.listAllAdmins();
+        return adminRepoService.findAll();
     }
 
     @PostMapping(path = "admin")
     public Admin addNewAdmin(@RequestBody Admin admin) {
-        return adminDaoService.createNewAdmin(admin);
+        return adminRepoService.save(admin);
+
     }
 
     @PostMapping(path = "admin/login")
-    public Admin loginAdmin(@RequestBody Admin admin) {
-        try {
-            return adminDaoService.loginAdmin(admin);
-        } catch (AdminNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    public boolean loginAdmin(@RequestBody Admin admin) {
+
+        if(adminJpaDaoService.loginAdmin(admin) == true){
+            return adminJpaDaoService.loginAdmin(admin);
+        }else{
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Credentials");
         }
     }
 
     @GetMapping(path = "admin/{adminId}")
     public Admin findAdminById(@PathVariable int adminId) {
         try {
-            return adminDaoService.findAdminById(adminId);
+            return adminRepoService.findById(adminId).get();
         } catch (AdminNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -52,7 +59,9 @@ public class AdminController {
     @DeleteMapping(path = "admin/{adminId}")
     public void deleteAdminById(@PathVariable int adminId) {
         try {
-            adminDaoService.deleteAdminById(adminId);
+            adminRepoService.findById(adminId);
+            adminRepoService.deleteById(adminId);
+            // adminDaoService.deleteAdminById(adminId);
         } catch (AdminNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
