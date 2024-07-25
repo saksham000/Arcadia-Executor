@@ -18,13 +18,18 @@ import com.online.school.school.service.jpaDaoService.AdminJpaDaoService;
 import java.util.List;
 
 @RestController
-public class AdminController {
+public class AdminJpaController {
 
     @Autowired
     private AdminJpaDaoService adminJpaDaoService;
 
     @Autowired
     private AdminRepo adminRepoService;
+
+    @GetMapping(path = "/")
+    public String rootPage(){
+        return "Welcome To Root Page !";
+    }
 
     @GetMapping(path = "admin")
     public List<Admin> fetchAllAdmins() {
@@ -40,9 +45,9 @@ public class AdminController {
     @PostMapping(path = "admin/login")
     public boolean loginAdmin(@RequestBody Admin admin) {
 
-        if(adminJpaDaoService.loginAdmin(admin) == true){
+        if (adminJpaDaoService.loginAdmin(admin) == true) {
             return adminJpaDaoService.loginAdmin(admin);
-        }else{
+        } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Credentials");
         }
     }
@@ -50,7 +55,7 @@ public class AdminController {
     @GetMapping(path = "admin/{adminId}")
     public Admin findAdminById(@PathVariable int adminId) {
         try {
-            return adminRepoService.findById(adminId).get();
+            return adminJpaDaoService.findAdminById(adminId);
         } catch (AdminNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -59,9 +64,8 @@ public class AdminController {
     @DeleteMapping(path = "admin/{adminId}")
     public void deleteAdminById(@PathVariable int adminId) {
         try {
-            adminRepoService.findById(adminId);
+            adminJpaDaoService.findAdminById(adminId);
             adminRepoService.deleteById(adminId);
-            // adminDaoService.deleteAdminById(adminId);
         } catch (AdminNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

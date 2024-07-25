@@ -24,8 +24,9 @@ public class Student {
 
     private String studentName;
     private int rollNumber;
+    private int assigendClassId = 0;
 
-    @JsonIgnore
+    // @JsonIgnore
     @ManyToMany
     @JoinTable(name = "student_subjects", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private List<Subject> subjects = new ArrayList<>();
@@ -34,8 +35,6 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "class_id")
     private StClass assignedStClass;
-
-    private int assigendClassId = 0;
 
     public Student() {
     }

@@ -1,4 +1,4 @@
-package com.online.school.school.controllers;
+package com.online.school.school.controllers.jpaController;
 
 import java.util.List;
 
@@ -9,23 +9,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.online.school.school.databasefiles.Subject;
 import com.online.school.school.exceptions.StudentNotFoundException;
 import com.online.school.school.exceptions.SubjectNotFoundException;
-import com.online.school.school.service.SubjectDaoService;
+import com.online.school.school.service.jpaDaoService.SubjectJpaDaoService;
 
-// @RestController
-public class SubjectController {
+@RestController
+public class SubjectJpaController {
 
     @Autowired
-    private SubjectDaoService subjectDaoService;
+    private SubjectJpaDaoService subjectJpaDaoService;
 
     @PostMapping(path = "students/assigne/subjects/{stId}")
     public List<Subject> assigneSubjectstoStudent(@PathVariable int stId, @RequestBody List<Subject> subject) {
         try {
-            return subjectDaoService.assigneSubjectsToStudent(stId, subject);
+            return subjectJpaDaoService.assigneSubjectsToStudent(stId, subject);
         } catch (StudentNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -34,7 +35,7 @@ public class SubjectController {
     @GetMapping(path = "students/assigned/subjects/{stId}")
     public List<Subject> getAssignedSubjects(@PathVariable int stId) {
         try {
-            return subjectDaoService.listAssignedSubjectsToStudent(stId);
+            return subjectJpaDaoService.listAssignedSubjectsToStudent(stId);
         } catch (StudentNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
@@ -43,7 +44,7 @@ public class SubjectController {
     @DeleteMapping(path = "students/assigned/subjects/{stId}/{subId}")
     public void deleteAssignedSubject(@PathVariable int stId, @PathVariable int subId) {
         try {
-            subjectDaoService.deleteSubjectOfStudentBySubId(stId, subId);
+            subjectJpaDaoService.deleteSubjectOfStudentBySubId(stId, subId);
         } catch (SubjectNotFoundException | StudentNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
