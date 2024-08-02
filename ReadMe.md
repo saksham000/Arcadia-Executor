@@ -1,1 +1,1 @@
-This a Online School Project in which teachers can teach students online and they can manage student. This Project is under development for now the Backend is Completed Now Developing Frontend in React.js So Stay Tuned...!
+This a Online School Project in which teachers can teach students online and they can manage student. This Project is under development for now the Backend is Completed, Frontend in React.js is Also Completed !! and this Project is Now Completed, Bringing New Features in Future So Stay Tuned...!
