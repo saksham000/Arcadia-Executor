@@ -23,10 +23,10 @@ public class SubjectJpaController {
     @Autowired
     private SubjectJpaDaoService subjectJpaDaoService;
 
-    @PostMapping(path = "students/assigne/subjects/{stId}")
-    public List<Subject> assigneSubjectstoStudent(@PathVariable int stId, @RequestBody List<Subject> subject) {
+    @PostMapping(path = "students/assigne/subject/{stId}")
+    public Subject assigneSubjectstoStudent(@PathVariable int stId, @RequestBody Subject subject) {
         try {
-            return subjectJpaDaoService.assigneSubjectsToStudent(stId, subject);
+            return subjectJpaDaoService.assignSubjectToStudent(stId, subject);
         } catch (StudentNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

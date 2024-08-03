@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collectors;
 
 import com.online.school.school.databasefiles.Student;
 import com.online.school.school.databasefiles.Subject;
@@ -23,17 +22,13 @@ public class SubjectJpaDaoService {
     @Autowired
     private SubjectRepo subjectRepoService;
 
-    public List<Subject> assigneSubjectsToStudent(int stId, List<Subject> subjects) {
-        List<Subject> savedSubjects = subjects.stream().map(subjectRepoService::save).collect(Collectors.toList());
-
+    public Subject assignSubjectToStudent(int stId, Subject subject) {
+        Subject savedSubject = subjectRepoService.save(subject);
         Student student = studentRepoService.findById(stId)
                 .orElseThrow(() -> new StudentNotFoundException("Student with Id: " + stId + " Not Found"));
-
-        student.setSubjects(savedSubjects);
-
+        student.getSubjects().add(savedSubject);
         studentRepoService.save(student);
-
-        return savedSubjects;
+        return savedSubject;
     }
 
     public List<Subject> listAssignedSubjectsToStudent(int stID) {
