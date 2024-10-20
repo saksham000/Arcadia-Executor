@@ -106,8 +106,8 @@ public class JwtSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("saksham")
-                .password("{noop}saksham") //.password(passwordEncoder.encode("saksham")) this is how we can use encoding of pass
+        UserDetails user = User.withUsername("root")
+                .password("{noop}root") //.password(passwordEncoder.encode("saksham")) this is how we can use encoding of pass
                 .authorities("read")
                 .roles("USER")
                 .build();
