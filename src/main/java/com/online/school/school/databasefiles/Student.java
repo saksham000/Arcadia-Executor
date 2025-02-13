@@ -1,6 +1,7 @@
 package com.online.school.school.databasefiles;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,23 +13,33 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
-
+    private Set<Role> roles;
     private String studentName;
     private int rollNumber;
+    @Builder.Default
     private int assigendClassId = 0;
-
+    private String studentPassword;
     // @JsonIgnore
     @ManyToMany
     @JoinTable(name = "student_subjects", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    @Builder.Default
     private List<Subject> subjects = new ArrayList<>();
 
     @JsonIgnore
@@ -36,8 +47,7 @@ public class Student {
     @JoinColumn(name = "class_id")
     private StClass assignedStClass;
 
-    public Student() {
-    }
+  
 
     public Student(int studentId, String studentName, int rollNumber, StClass assignedStClass) {
         this.studentId = studentId;

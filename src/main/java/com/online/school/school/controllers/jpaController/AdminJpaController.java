@@ -2,11 +2,13 @@ package com.online.school.school.controllers.jpaController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +20,7 @@ import com.online.school.school.service.jpaDaoService.AdminJpaDaoService;
 import java.util.List;
 
 @RestController
+@RequestMapping(path = "/admin")
 public class AdminJpaController {
 
     @Autowired
@@ -31,28 +34,32 @@ public class AdminJpaController {
         return "Welcome To Root Page !";
     }
 
-    @GetMapping(path = "admin")
+    @GetMapping(path = "/all-admin")
     public List<Admin> fetchAllAdmins() {
         return adminRepoService.findAll();
     }
 
-    @PostMapping(path = "admin")
-    public Admin addNewAdmin(@RequestBody Admin admin) {
-        return adminRepoService.save(admin);
-
-    }
-
-    @PostMapping(path = "admin/login")
-    public boolean loginAdmin(@RequestBody Admin admin) {
-
-        if (adminJpaDaoService.loginAdmin(admin) == true) {
-            return adminJpaDaoService.loginAdmin(admin);
-        } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Credentials");
+    @PostMapping(path = "/create-admin")
+    ResponseEntity<Admin> createAdmin(@RequestBody Admin admin){
+        try{
+            Admin newAdmin = adminJpaDaoService.createNewAdmin(admin);
+            return ResponseEntity.ok(newAdmin);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
         }
     }
 
-    @GetMapping(path = "admin/{adminId}")
+    @PostMapping(path = "/admin-login")
+    ResponseEntity<String> loginAdmin(@RequestBody Admin admin){
+        try {
+            String token = adminJpaDaoService.loginAdmin(admin);
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Login failed: " + e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "find-admin/{adminId}")
     public Admin findAdminById(@PathVariable int adminId) {
         try {
             return adminJpaDaoService.findAdminById(adminId);
@@ -61,7 +68,7 @@ public class AdminJpaController {
         }
     }
 
-    @DeleteMapping(path = "admin/{adminId}")
+    @DeleteMapping(path = "delete-admin/{adminId}")
     public void deleteAdminById(@PathVariable int adminId) {
         try {
             adminJpaDaoService.findAdminById(adminId);

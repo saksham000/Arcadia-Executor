@@ -1,6 +1,7 @@
 package com.online.school.school.databasefiles;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,58 +12,36 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int teacherId;
-    
+
     private String teacherName;
-
+    @Builder.Default
     private int assignedClassId = 0;
-
+    private Set<Role> roles;
+    private String teacherPassword;
     @JsonIgnore
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StClass> classes;
-
-    public Teacher() {
-    }
 
     public Teacher(int teacherId, String teacherName) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.classes = new ArrayList<>();
-    }
-
-    public int getTeacherId() {
-        return teacherId;
-    }
-
-    public int getAssignedClassId() {
-        return assignedClassId;
-    }
-
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public void setAssignedClassId(int assigendClassId) {
-        this.assignedClassId = assigendClassId;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
-    public List<StClass> getClasses() {
-        return classes;
     }
 
     public void setClasses(List<StClass> classes) {
@@ -71,14 +50,5 @@ public class Teacher {
 
     public void addClass(StClass stClass) {
         this.classes.add(stClass);
-    }
-
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "teacherId=" + teacherId +
-                ", teacherName='" + teacherName + '\'' +
-                ", classes=" + classes +
-                '}';
     }
 }
