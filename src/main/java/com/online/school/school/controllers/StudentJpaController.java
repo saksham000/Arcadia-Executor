@@ -1,4 +1,4 @@
-package com.online.school.school.controllers.jpaController;
+package com.online.school.school.controllers;
 
 import java.util.List;
 
@@ -14,39 +14,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.online.school.school.databasefiles.Student;
-import com.online.school.school.service.jpaDaoService.StudentJpaDaoService;
+import com.online.school.school.entity.Student;
+import com.online.school.school.service.StudentService;
 
 @RestController
 @RequestMapping(path = "/student")
 public class StudentJpaController {
 
     @Autowired
-    private StudentJpaDaoService studentJpaDaoService;
+    private StudentService studentService;
 
-    @GetMapping(path = "students")
+    @GetMapping(path = "/all-student")
     public List<Student> fetchAllStudents() {
-        return studentJpaDaoService.listAllStudents();
+        return studentService.listAllStudents();
     }
 
-    @GetMapping(path = "students/{stId}")
-    public Student findStudentbyId(@PathVariable int stId) {
+    @GetMapping(path = "/find-studentid/{stId}")
+    public Student findStudentbyId(@PathVariable Long stId) {
         try {
-            return studentJpaDaoService.findStudentById(stId);
+            return studentService.findStudentById(stId);
         } catch (UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
-    @PostMapping(path = "students")
+    @PostMapping(path = "/create-student")
     public Student createStudent(@RequestBody Student student) {
-        return studentJpaDaoService.createNewStudent(student);
+        return studentService.createNewStudent(student);
     }
 
-    @DeleteMapping(path = "students/{stId}")
-    public void deleteStudent(@PathVariable int stId) {
+    @DeleteMapping(path = "/students/{stId}")
+    public void deleteStudent(@PathVariable Long stId) {
         try {
-            studentJpaDaoService.deleteStudentById(stId);
+            studentService.deleteStudentById(stId);
         } catch (UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

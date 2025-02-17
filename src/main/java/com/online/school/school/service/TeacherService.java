@@ -1,4 +1,4 @@
-package com.online.school.school.service.jpaDaoService;
+package com.online.school.school.service;
 
 import java.util.Optional;
 
@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.online.school.school.databasefiles.StClass;
-import com.online.school.school.databasefiles.Teacher;
-import com.online.school.school.databasefiles.jpaRepositories.StClassRepo;
-import com.online.school.school.databasefiles.jpaRepositories.TeacherRepo;
+import com.online.school.school.entity.StClass;
+import com.online.school.school.entity.Teacher;
+import com.online.school.school.entity.jpaRepositories.StClassRepo;
+import com.online.school.school.entity.jpaRepositories.TeacherRepo;
 
 @Service
-public class TeacherJpaDaoService {
+public class TeacherService {
 
     @Autowired
     private TeacherRepo teacherRepoService;
@@ -25,7 +25,7 @@ public class TeacherJpaDaoService {
         return teacherRepoService.findAll();
     }
 
-    public Teacher findTeacherById(int tId) {
+    public Teacher findTeacherById(Long tId) {
         Optional<Teacher> teacherOptional = teacherRepoService.findById(tId);
         if (teacherOptional.isPresent()) {
             return teacherOptional.get();
@@ -34,7 +34,7 @@ public class TeacherJpaDaoService {
         }
     }
 
-    public void assigneTeacherToClass(int classId, int tId) {
+    public void assigneTeacherToClass(Long classId, Long tId) {
         Optional<StClass> classOptional = stClassRepoService.findById(classId);
         StClass assigneClass = classOptional.get();
         if (classOptional.isPresent()) {
@@ -50,12 +50,12 @@ public class TeacherJpaDaoService {
 
     public Teacher createNewTeacher(Teacher teacher) {
         teacher.setClasses(null);
-        teacher.setAssignedClassId(0);
+        teacher.setAssignedClassId(null);
         teacherRepoService.save(teacher);
         return teacher;
     }
 
-    public void deleteTeacherById(int tId) {
+    public void deleteTeacherById(Long tId) {
         Teacher teacher = findTeacherById(tId);
         teacherRepoService.deleteById(teacher.getTeacherId());
     }

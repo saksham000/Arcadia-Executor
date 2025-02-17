@@ -1,4 +1,4 @@
-package com.online.school.school.databasefiles;
+package com.online.school.school.entity;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -25,7 +25,7 @@ public class StClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int classId;
+    private Long classId;
 
     private String className;
 
@@ -36,7 +36,7 @@ public class StClass {
     @OneToMany(mappedBy = "assignedStClass", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> students;
 
-    public StClass(int classId, String className, Teacher teacher) {
+    public StClass(Long classId, String className, Teacher teacher) {
         this.classId = classId;
         this.className = className;
         this.students = new ArrayList<>();

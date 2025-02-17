@@ -1,4 +1,4 @@
-package com.online.school.school.controllers.jpaController;
+package com.online.school.school.controllers;
 
 import java.util.List;
 
@@ -9,54 +9,55 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.online.school.school.databasefiles.StClass;
-import com.online.school.school.exceptions.ClassNotFoundException;
-import com.online.school.school.service.jpaDaoService.StClassJpaDaoService;
-import com.online.school.school.service.jpaDaoService.StudentJpaDaoService;
+import com.online.school.school.entity.StClass;
+import com.online.school.school.service.StClassService;
+import com.online.school.school.service.StudentService;
 
 @RestController
+@RequestMapping(path = "/class")
 public class StClassJpaController {
 
     @Autowired
-    private StudentJpaDaoService studentJpaDaoService;
+    private StudentService studentJpaDaoService;
 
     @Autowired
-    private StClassJpaDaoService stClassJpaDaoService;
+    private StClassService stClassJpaDaoService;
 
-    @GetMapping(path = "classes")
+    @GetMapping(path = "/all-class")
     public List<StClass> fetchAllClasses() {
         return stClassJpaDaoService.listAllClasses();
     }
 
-    @GetMapping(path = "classes/{cId}")
-    public StClass fetchClassById(@PathVariable int cId) {
+    @GetMapping(path = "/find-classid/{cId}")
+    public StClass fetchClassById(@PathVariable Long cId) {
         try {
             return stClassJpaDaoService.findClassById(cId);
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
-    @PostMapping(path = "classes")
+    @PostMapping(path = "/create-class")
     public StClass createNewClass(@RequestBody StClass newclass) {
         stClassJpaDaoService.createNewClass(newclass);
         return newclass;
     }
 
-    @DeleteMapping(path = "classes/{cId}")
-    public void deleteClassById(@PathVariable int cId) {
+    @DeleteMapping(path = "/delete-classid/{cId}")
+    public void deleteClassById(@PathVariable Long cId) {
         try {
             stClassJpaDaoService.deleteClassById(cId);
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
 
-    @GetMapping(path = "classes/assigne/{classId}/student/{stId}")
-    public void assigneClassToStudents(@PathVariable int stId, @PathVariable int classId) {
+    @GetMapping(path = "/assigne-class/{classId}/student/{stId}")
+    public void assigneClassToStudents(@PathVariable Long stId, @PathVariable Long classId) {
 
         try {
             studentJpaDaoService.assigneClassToStudent(stId, classId);

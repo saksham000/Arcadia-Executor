@@ -1,4 +1,6 @@
-package com.online.school.school.databasefiles;
+package com.online.school.school.entity;
+
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,10 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Subject {
+public class Admin {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int subjectId;
-
-    private String subjectName;
+    private Long adminId;
+    private String adminName;
+    private String adminPassword;
+    private Set<Role> roles;
 }

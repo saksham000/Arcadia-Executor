@@ -1,4 +1,4 @@
-package com.online.school.school.databasefiles;
+package com.online.school.school.entity;
 
 import java.util.List;
 import java.util.Set;
@@ -27,18 +27,17 @@ import java.util.ArrayList;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int teacherId;
+    private Long teacherId;
 
     private String teacherName;
-    @Builder.Default
-    private int assignedClassId = 0;
+    private Long assignedClassId;
     private Set<Role> roles;
     private String teacherPassword;
     @JsonIgnore
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StClass> classes;
 
-    public Teacher(int teacherId, String teacherName) {
+    public Teacher(Long teacherId, String teacherName) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.classes = new ArrayList<>();

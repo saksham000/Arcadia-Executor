@@ -1,4 +1,4 @@
-package com.online.school.school.service.jpaDaoService;
+package com.online.school.school.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.online.school.school.databasefiles.Student;
-import com.online.school.school.databasefiles.Subject;
-import com.online.school.school.databasefiles.jpaRepositories.StudentRepo;
-import com.online.school.school.databasefiles.jpaRepositories.SubjectRepo;
+import com.online.school.school.entity.Student;
+import com.online.school.school.entity.Subject;
+import com.online.school.school.entity.jpaRepositories.StudentRepo;
+import com.online.school.school.entity.jpaRepositories.SubjectRepo;
 
 @Service
-public class SubjectJpaDaoService {
+public class SubjectService {
 
     @Autowired
     private StudentRepo studentRepoService;
@@ -21,7 +21,7 @@ public class SubjectJpaDaoService {
     @Autowired
     private SubjectRepo subjectRepoService;
 
-    public Subject assignSubjectToStudent(int stId, Subject subject) {
+    public Subject assignSubjectToStudent(Long stId, Subject subject) {
         Subject savedSubject = subjectRepoService.save(subject);
         Student student = studentRepoService.findById(stId)
                 .orElseThrow(() -> new UsernameNotFoundException("Student with Id: " + stId + " Not Found"));
@@ -30,7 +30,7 @@ public class SubjectJpaDaoService {
         return savedSubject;
     }
 
-    public List<Subject> listAssignedSubjectsToStudent(int stID) {
+    public List<Subject> listAssignedSubjectsToStudent(Long stID) {
         Optional<Student> studentOptional = studentRepoService.findById(stID);
         if (!studentOptional.isPresent()) {
             throw new UsernameNotFoundException("Student with Id: " + stID + " is not Present");
@@ -39,7 +39,7 @@ public class SubjectJpaDaoService {
 
     }
 
-    public void deleteSubjectOfStudentBySubId(int stId, int subId) {
+    public void deleteSubjectOfStudentBySubId(Long stId, Long subId) {
         Student student = studentRepoService.findById(stId)
                 .orElseThrow(() -> new UsernameNotFoundException("Student with Id: " + stId + " Not Found"));
 

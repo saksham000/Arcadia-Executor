@@ -10,12 +10,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.online.school.school.databasefiles.jpaRepositories.AdminRepo;
-import com.online.school.school.databasefiles.jpaRepositories.TeacherRepo;
-import com.online.school.school.databasefiles.jpaRepositories.StudentRepo;
-import com.online.school.school.databasefiles.Admin;
-import com.online.school.school.databasefiles.Teacher;
-import com.online.school.school.databasefiles.Student;
+import com.online.school.school.entity.Admin;
+import com.online.school.school.entity.Student;
+import com.online.school.school.entity.Teacher;
+import com.online.school.school.entity.jpaRepositories.AdminRepo;
+import com.online.school.school.entity.jpaRepositories.StudentRepo;
+import com.online.school.school.entity.jpaRepositories.TeacherRepo;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -35,29 +35,29 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (adminOpt.isPresent()) {
             return buildUserDetails(adminOpt.get());
         }
-    
+
         Optional<Teacher> teacherOpt = teacherRepo.findByTeacherName(username);
         if (teacherOpt.isPresent()) {
             return buildUserDetails(teacherOpt.get());
         }
-    
-        Optional<Student> userOpt = userRepo.findByStudentName(username);
-        if (userOpt.isPresent()) {
-            return buildUserDetails(userOpt.get());
+
+        Optional<Student> student = userRepo.findByStudentName(username);
+        if (student.isPresent()) {
+            return buildUserDetails(student.get());
         }
 
         // If neither found, throw exception
         throw new UsernameNotFoundException("User not found");
     }
 
-    private UserDetails buildUserDetails(Student user) {
-        String[] roles = user.getRoles().stream()
+    private UserDetails buildUserDetails(Student student) {
+        String[] roles = student.getRoles().stream()
                 .map(role -> role.name())
                 .toArray(String[]::new);
 
         return User.builder()
-                .username(user.getStudentName())
-                .password(user.getStudentPassword())
+                .username(student.getStudentName())
+                .password(student.getStudentPassword())
                 .roles(roles)
                 .build();
     }

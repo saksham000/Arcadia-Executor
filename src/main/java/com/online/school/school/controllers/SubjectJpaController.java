@@ -1,4 +1,4 @@
-package com.online.school.school.controllers.jpaController;
+package com.online.school.school.controllers;
 
 import java.util.List;
 
@@ -10,20 +10,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.online.school.school.databasefiles.Subject;
-import com.online.school.school.service.jpaDaoService.SubjectJpaDaoService;
+import com.online.school.school.entity.Subject;
+import com.online.school.school.service.SubjectService;
 
 @RestController
+@RequestMapping(path = "/student")
 public class SubjectJpaController {
 
     @Autowired
-    private SubjectJpaDaoService subjectJpaDaoService;
+    private SubjectService subjectJpaDaoService;
 
     @PostMapping(path = "students/assigne/subject/{stId}")
-    public Subject assigneSubjectstoStudent(@PathVariable int stId, @RequestBody Subject subject) {
+    public Subject assigneSubjectstoStudent(@PathVariable Long stId, @RequestBody Subject subject) {
         try {
             return subjectJpaDaoService.assignSubjectToStudent(stId, subject);
         } catch (UsernameNotFoundException e) {
@@ -32,7 +34,7 @@ public class SubjectJpaController {
     }
 
     @GetMapping(path = "students/assigned/subjects/{stId}")
-    public List<Subject> getAssignedSubjects(@PathVariable int stId) {
+    public List<Subject> getAssignedSubjects(@PathVariable Long stId) {
         try {
             return subjectJpaDaoService.listAssignedSubjectsToStudent(stId);
         } catch (UsernameNotFoundException e) {
@@ -41,7 +43,7 @@ public class SubjectJpaController {
     }
 
     @DeleteMapping(path = "students/assigned/subjects/{stId}/{subId}")
-    public void deleteAssignedSubject(@PathVariable int stId, @PathVariable int subId) {
+    public void deleteAssignedSubject(@PathVariable Long stId, @PathVariable Long subId) {
         try {
             subjectJpaDaoService.deleteSubjectOfStudentBySubId(stId, subId);
         } catch (Exception e) {

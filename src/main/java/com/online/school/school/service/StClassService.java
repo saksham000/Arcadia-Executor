@@ -1,4 +1,4 @@
-package com.online.school.school.service.jpaDaoService;
+package com.online.school.school.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.online.school.school.exceptions.ClassNotFoundException;
-import com.online.school.school.databasefiles.StClass;
-import com.online.school.school.databasefiles.jpaRepositories.StClassRepo;
+import com.online.school.school.entity.StClass;
+import com.online.school.school.entity.jpaRepositories.StClassRepo;
+import com.online.school.school.exceptions.NotFoundException;
 
 @Service
-public class StClassJpaDaoService {
+public class StClassService {
 
     @Autowired
     private StClassRepo stClassRepoService;
@@ -20,12 +20,12 @@ public class StClassJpaDaoService {
         return stClassRepoService.findAll();
     }
 
-    public StClass findClassById(int clasId) {
+    public StClass findClassById(Long clasId) {
         Optional<StClass> classOptional = stClassRepoService.findById(clasId);
         if (classOptional.isPresent()) {
             return classOptional.get();
         } else {
-            throw new ClassNotFoundException("Class with Id: " + clasId + " Not Found !");
+            throw new NotFoundException("Class with Id: " + clasId + " Not Found !");
         }
     }
 
@@ -35,7 +35,7 @@ public class StClassJpaDaoService {
         return newClass;
     }
 
-    public void deleteClassById(int cId) {
+    public void deleteClassById(Long cId) {
         StClass storeClass = findClassById(cId);
         stClassRepoService.deleteById(storeClass.getClassId());
     }

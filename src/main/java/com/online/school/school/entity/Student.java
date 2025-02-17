@@ -1,4 +1,4 @@
-package com.online.school.school.databasefiles;
+package com.online.school.school.entity;
 
 import java.util.List;
 import java.util.Set;
@@ -29,14 +29,16 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int studentId;
+    private Long studentId;
+
     private Set<Role> roles;
+
     private String studentName;
-    private int rollNumber;
-    @Builder.Default
-    private int assigendClassId = 0;
+
+    private Long assigendClassId;
+
     private String studentPassword;
-    // @JsonIgnore
+
     @ManyToMany
     @JoinTable(name = "student_subjects", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     @Builder.Default
@@ -47,29 +49,26 @@ public class Student {
     @JoinColumn(name = "class_id")
     private StClass assignedStClass;
 
-  
-
-    public Student(int studentId, String studentName, int rollNumber, StClass assignedStClass) {
+    public Student(Long studentId, String studentName, Long rollNumber, StClass assignedStClass) {
         this.studentId = studentId;
         this.studentName = studentName;
-        this.rollNumber = rollNumber;
         this.subjects = new ArrayList<>();
         this.assignedStClass = assignedStClass;
     }
 
-    public int getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public int getAssignedClassId() {
+    public Long getAssignedClassId() {
         return assigendClassId;
     }
 
-    public void setAssignedClassId(int assigendClassId) {
+    public void setAssignedClassId(Long assigendClassId) {
         this.assigendClassId = assigendClassId;
     }
 
-    public void setStudentId(int studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 
@@ -79,14 +78,6 @@ public class Student {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
-    }
-
-    public int getRollNumber() {
-        return rollNumber;
-    }
-
-    public void setRollNumber(int rollNumber) {
-        this.rollNumber = rollNumber;
     }
 
     public List<Subject> getSubjects() {
@@ -109,14 +100,4 @@ public class Student {
         this.subjects.add(subject);
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "studentId=" + studentId +
-                ", studentName='" + studentName + '\'' +
-                ", rollNumber=" + rollNumber +
-                ", subjects=" + subjects +
-                ", assignedStClass=" + assignedStClass +
-                '}';
-    }
 }

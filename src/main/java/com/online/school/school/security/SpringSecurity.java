@@ -36,7 +36,9 @@ public class SpringSecurity {
                                 "/admin/create-admin")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        // .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/teacher/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers("/class/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers("/student/**").hasAnyRole("STUDENT","TEACHER", "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
