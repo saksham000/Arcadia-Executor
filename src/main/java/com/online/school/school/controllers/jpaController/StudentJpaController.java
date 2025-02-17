@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.online.school.school.databasefiles.Student;
-import com.online.school.school.exceptions.StudentNotFoundException;
 import com.online.school.school.service.jpaDaoService.StudentJpaDaoService;
 
 @RestController
@@ -33,7 +33,7 @@ public class StudentJpaController {
     public Student findStudentbyId(@PathVariable int stId) {
         try {
             return studentJpaDaoService.findStudentById(stId);
-        } catch (StudentNotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
@@ -47,7 +47,7 @@ public class StudentJpaController {
     public void deleteStudent(@PathVariable int stId) {
         try {
             studentJpaDaoService.deleteStudentById(stId);
-        } catch (StudentNotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

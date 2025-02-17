@@ -16,7 +16,7 @@ import com.online.school.school.databasefiles.Role;
 import com.online.school.school.databasefiles.jpaRepositories.AdminRepo;
 import com.online.school.school.databasefiles.jpaRepositories.StudentRepo;
 import com.online.school.school.databasefiles.jpaRepositories.TeacherRepo;
-import com.online.school.school.exceptions.AdminNotFoundException;
+import com.online.school.school.exceptions.CreationException;
 import com.online.school.school.security.JwtUtils;
 import com.online.school.school.security.UserDetailsServiceImpl;
 
@@ -59,20 +59,20 @@ public class AdminJpaDaoService {
 
         public Admin createNewAdmin(Admin reqAdmin) {
         // Validate input
-        // if (reqAdmin.getAdminName() == null || reqAdmin.getAdminName().trim().isEmpty()) {
-        //     throw new IllegalArgumentException("Admin name cannot be null or empty");
-        // }
-        // if (reqAdmin.getAdminPassword() == null || reqAdmin.getAdminPassword().trim().isEmpty()) {
-        //     throw new IllegalArgumentException("Admin password cannot be null or empty");
-        // }
+        if (reqAdmin.getAdminName() == null || reqAdmin.getAdminName().trim().isEmpty()) {
+            throw new CreationException("Admin name cannot be null or empty");
+        }
+        if (reqAdmin.getAdminPassword() == null || reqAdmin.getAdminPassword().trim().isEmpty()) {
+            throw new CreationException("Admin password cannot be null or empty");
+        }
 
-        // Optional<Admin> existingAdminUserName = adminRepoService.findByAdminName(reqAdmin.getAdminName());
-        // Optional<?> existingTeacherName = teacherRepo.findByTeacherName(reqAdmin.getAdminName());
-        // Optional<?> existingUserEntName = studentRepo.findByStudentName(reqAdmin.getAdminName());
+        Optional<Admin> existingAdminUserName = adminRepoService.findByAdminName(reqAdmin.getAdminName());
+        Optional<?> existingTeacherName = teacherRepo.findByTeacherName(reqAdmin.getAdminName());
+        Optional<?> existingUserEntName = studentRepo.findByStudentName(reqAdmin.getAdminName());
 
-        // if (existingAdminUserName.isPresent() || existingTeacherName.isPresent() || existingUserEntName.isPresent()) {
-        //     throw new IllegalArgumentException("Admin username is already used");
-        // }
+        if (existingAdminUserName.isPresent() || existingTeacherName.isPresent() || existingUserEntName.isPresent()) {
+            throw new CreationException("Admin username is already used");
+        }
 
         // Create new admin
         Admin newAdmin = Admin.builder()
@@ -89,7 +89,7 @@ public class AdminJpaDaoService {
         if (adminOptional.isPresent()) {
             return adminOptional.get();
         } else {
-            throw new AdminNotFoundException("Admin By Id: " + adminId + " Is Not Found");
+            throw new UsernameNotFoundException("Admin By Id: " + adminId + " Is Not Found");
         }
     }
 

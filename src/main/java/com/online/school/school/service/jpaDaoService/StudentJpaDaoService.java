@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.online.school.school.databasefiles.StClass;
@@ -11,8 +12,7 @@ import com.online.school.school.databasefiles.Student;
 import com.online.school.school.databasefiles.jpaRepositories.StClassRepo;
 import com.online.school.school.databasefiles.jpaRepositories.StudentRepo;
 import com.online.school.school.exceptions.ClassNotFoundException;
-import com.online.school.school.exceptions.StudentAlredyPresentException;
-import com.online.school.school.exceptions.StudentNotFoundException;
+import com.online.school.school.exceptions.UserAlredyPresentException;
 
 @Service
 public class StudentJpaDaoService {
@@ -32,7 +32,7 @@ public class StudentJpaDaoService {
         if (studentOptional.isPresent()) {
             return studentOptional.get();
         } else {
-            throw new StudentNotFoundException("Student with Id: " + stId + " Not Found !");
+            throw new UsernameNotFoundException("Student with Id: " + stId + " Not Found !");
         }
 
     }
@@ -53,7 +53,7 @@ public class StudentJpaDaoService {
         }
 
         if (!studentOptional.isPresent()) {
-            throw new StudentNotFoundException("Student with Id: " + stId + " Not Found!");
+            throw new UsernameNotFoundException("Student with Id: " + stId + " Not Found!");
         }
 
         StClass assignedClass = classOptional.get();
@@ -62,7 +62,7 @@ public class StudentJpaDaoService {
         boolean isStudentAlreadyPresent = assignedClass.getStudents().stream().anyMatch(s -> s.getStudentId() == stId);
 
         if (isStudentAlreadyPresent) {
-            throw new StudentAlredyPresentException("Student with Id: " + stId + " is Already Present in class");
+            throw new UserAlredyPresentException("Student with Id: " + stId + " is Already Present in class");
         } else {
             student.setAssignedStClass(assignedClass);
             assignedClass.addStudent(student);

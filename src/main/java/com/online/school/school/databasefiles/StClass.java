@@ -36,15 +36,12 @@ public class StClass {
     @OneToMany(mappedBy = "assignedStClass", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> students;
 
- 
-
     public StClass(int classId, String className, Teacher teacher) {
         this.classId = classId;
         this.className = className;
         this.students = new ArrayList<>();
         this.teacher = teacher;
     }
-
 
     public void addStudent(Student student) {
         this.students.add(student);

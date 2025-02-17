@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.online.school.school.databasefiles.StClass;
 import com.online.school.school.databasefiles.Teacher;
 import com.online.school.school.databasefiles.jpaRepositories.StClassRepo;
 import com.online.school.school.databasefiles.jpaRepositories.TeacherRepo;
-import com.online.school.school.exceptions.TeacherNotFoundException;
 
 @Service
 public class TeacherJpaDaoService {
@@ -30,7 +30,7 @@ public class TeacherJpaDaoService {
         if (teacherOptional.isPresent()) {
             return teacherOptional.get();
         } else {
-            throw new TeacherNotFoundException("Teacher with Id: " + tId + " is not Found !");
+            throw new UsernameNotFoundException("Teacher with Id: " + tId + " is not Found !");
         }
     }
 

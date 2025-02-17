@@ -14,8 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.online.school.school.databasefiles.StClass;
 import com.online.school.school.exceptions.ClassNotFoundException;
-import com.online.school.school.exceptions.StudentAlredyPresentException;
-import com.online.school.school.exceptions.StudentNotFoundException;
 import com.online.school.school.service.jpaDaoService.StClassJpaDaoService;
 import com.online.school.school.service.jpaDaoService.StudentJpaDaoService;
 
@@ -62,7 +60,7 @@ public class StClassJpaController {
 
         try {
             studentJpaDaoService.assigneClassToStudent(stId, classId);
-        } catch (StudentNotFoundException | StudentAlredyPresentException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

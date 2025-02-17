@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.online.school.school.databasefiles.Teacher;
-import com.online.school.school.exceptions.ClassNotFoundException;
-import com.online.school.school.exceptions.TeacherNotFoundException;
 import com.online.school.school.service.jpaDaoService.TeacherJpaDaoService;
 
 @RestController
@@ -34,7 +32,7 @@ public class TeacherJpaContoller {
     public void assigneTeacherToClassByTid(@PathVariable int clasId, @PathVariable int tId) {
         try {
             teacherJpaDaoService.assigneTeacherToClass(clasId, tId);
-        } catch (ClassNotFoundException | TeacherNotFoundException e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
