@@ -1,7 +1,6 @@
 package com.online.school.school.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,23 +20,37 @@ public class StClassService {
     }
 
     public StClass findClassById(Long clasId) {
-        Optional<StClass> classOptional = stClassRepoService.findById(clasId);
-        if (classOptional.isPresent()) {
-            return classOptional.get();
-        } else {
-            throw new NotFoundException("Class with Id: " + clasId + " Not Found !");
-        }
+        StClass classOptional = stClassRepoService.findById(clasId)
+                .orElseThrow(() -> new NotFoundException("Class with Id: " + clasId + " Not Found !"));
+        return classOptional;
     }
 
-    public StClass createNewClass(StClass newClass) {
-        newClass.setTeacher(null);
-        stClassRepoService.save(newClass);
-        return newClass;
+    public StClass createNewClass(StClass reqClass) {
+        StClass newClass = StClass.builder()
+                .className(reqClass.getClassName())
+                .students(null)
+                .teacher(null)
+                .build();
+        return stClassRepoService.save(newClass);
+    }
+
+    public StClass updateClass(StClass reqClass) {
+        StClass newClass = findClassById(reqClass.getClassId());
+
+        if (reqClass.getClassName() != null) {
+            newClass.setClassName(reqClass.getClassName());
+        }
+        if (reqClass.getStudents() != null) {
+            newClass.setStudents(reqClass.getStudents());
+        }
+        if (reqClass.getTeacher() != null) {
+            newClass.setTeacher(reqClass.getTeacher());
+        }
+        return stClassRepoService.save(newClass);
     }
 
     public void deleteClassById(Long cId) {
         StClass storeClass = findClassById(cId);
-        stClassRepoService.deleteById(storeClass.getClassId());
+        stClassRepoService.delete(storeClass);
     }
-
 }

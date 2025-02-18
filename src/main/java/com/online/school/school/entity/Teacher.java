@@ -25,14 +25,19 @@ import java.util.ArrayList;
 @Builder
 @Entity
 public class Teacher {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teacherId;
 
     private String teacherName;
+
     private Long assignedClassId;
-    private Set<Role> roles;
+    
     private String teacherPassword;
+
+    private Set<Role> roles;
+
     @JsonIgnore
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StClass> classes;

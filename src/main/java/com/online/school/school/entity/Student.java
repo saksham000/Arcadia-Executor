@@ -31,14 +31,14 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
 
-    private Set<Role> roles;
-
+    
     private String studentName;
-
+    
     private Long assigendClassId;
-
+    
     private String studentPassword;
-
+    private Set<Role> roles;
+    
     @ManyToMany
     @JoinTable(name = "student_subjects", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
     @Builder.Default

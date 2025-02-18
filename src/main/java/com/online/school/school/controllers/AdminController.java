@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/admin")
-public class AdminJpaController {
+public class AdminController {
 
     @Autowired
     private AdminService adminService;

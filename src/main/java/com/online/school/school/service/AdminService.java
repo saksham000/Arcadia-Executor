@@ -72,8 +72,7 @@ public class AdminService {
                 .orElseThrow(() -> new UsernameNotFoundException("User is not found!"));
     }
 
-
-    public List<Admin> allAdmins(){
+    public List<Admin> allAdmins() {
         return adminRepoService.findAll();
     }
 

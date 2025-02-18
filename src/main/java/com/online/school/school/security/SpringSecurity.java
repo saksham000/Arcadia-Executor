@@ -30,15 +30,18 @@ public class SpringSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for stateless apps
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**",
-                                "/admin/create-admin")
+                                "/admin/create-admin",
+                                "/teacher/create-teacher",
+                                "/student/create-student")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/teacher/**").hasAnyRole("TEACHER", "ADMIN")
                         .requestMatchers("/class/**").hasAnyRole("TEACHER", "ADMIN")
-                        .requestMatchers("/student/**").hasAnyRole("STUDENT","TEACHER", "ADMIN")
+                        .requestMatchers("/student/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                        .requestMatchers("/subject/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
